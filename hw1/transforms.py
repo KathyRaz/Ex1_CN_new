@@ -13,7 +13,6 @@ class TensorView(object):
         # TODO: Use Tensor.view() to implement the transform.
         # ====== YOUR CODE: ======
         return tensor.view(self.view_dims)
-        raise NotImplementedError()
         # ========================
 
 
@@ -31,7 +30,7 @@ class BiasTrick(object):
         
 
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        return torch.cat((tensor, torch.ones([1])))
         # ========================
 
 
