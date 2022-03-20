@@ -101,7 +101,38 @@ class LinearClassifier(object):
             average_loss = 0
 
             # ====== YOUR CODE: ======
-            raise NotImplementedError()
+            train_loss = 0
+            train_acc = 0
+            valid_loss = 0
+            valid_acc = 0
+            for batch in dl_train:
+                x, y = batch
+                y_pred, x_scores = self.predict(x)
+                loss = loss_fn.loss(x, y, x_scores, y_pred)
+                grad = loss_fn.grad()
+
+                grad += self.weights * weight_decay
+
+                self.weights -= learn_rate * grad
+
+                train_loss += loss / len(dl_train)
+                train_acc += (y_pred == y).sum() / len(dl_train)
+
+            for batch in dl_valid:
+                x, y = batch
+                y_pred, x_scores = self.predict(x)
+                loss = loss_fn.loss(x, y, x_scores, y_pred)
+
+                valid_loss += loss / len(dl_valid)
+                valid_acc += (y_pred == y).sum() / len(dl_valid)
+
+            # print("train loss:", train_loss)
+            # print("val loss:", valid_loss)
+            # print("val accuracy:", valid_acc)
+            train_res.loss.append(train_loss)
+            train_res.accuracy.append(train_acc)
+            valid_res.loss.append(valid_loss)
+            valid_res.accuracy.append(valid_acc)
             # ========================
             print('.', end='')
 
@@ -121,7 +152,11 @@ class LinearClassifier(object):
         # The output shape should be (n_classes, C, H, W).
 
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        if has_bias:
+            w = self.weights[:-1]
+        else:
+            w = self.weights
+        return w.transpose(0, 1).view(self.n_classes, *img_shape)
         # ========================
 
         return w_images
