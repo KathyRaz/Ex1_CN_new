@@ -1,9 +1,9 @@
 import math
+
 import numpy as np
 import torch
 import torch.utils.data.sampler as sampler
 from torch.utils.data import Dataset, DataLoader
-
 
 
 def create_train_validation_loaders(dataset: Dataset, validation_ratio,
@@ -29,23 +29,17 @@ def create_train_validation_loaders(dataset: Dataset, validation_ratio,
     #    from the dataset.
 
     # ====== YOUR CODE: ======
-    idx = list(range(len(dataset)))
-    np.random.shuffle(idx)
-    split = int(np.floor(validation_ratio * len(dataset)))
-    train_indices, val_indices = idx[split:], idx[:split]
-
+    dataset_size = len(dataset)
+    dataset_indices = list(range(dataset_size))
+    np.random.shuffle(dataset_indices)
+    validation_split_idx = int(np.floor(dataset_size * validation_ratio))
+    train_indices = dataset_indices[validation_split_idx:]
+    validation_indices = dataset_indices[:validation_split_idx]
+    
     train_sampler = sampler.SubsetRandomSampler(train_indices)
-    valid_sampler = sampler.SubsetRandomSampler(val_indices)
-
-    dl_train = torch.utils.data.DataLoader(dataset, batch_size=batch_size, num_workers=num_workers, 
-                                               sampler=train_sampler)
-    dl_valid = torch.utils.data.DataLoader(dataset, batch_size=batch_size,num_workers=num_workers, 
-                                                    sampler=valid_sampler)
-
-    
-    return dl_train, dl_valid
-    
-    raise NotImplementedError()
+    validation_sampler = sampler.SubsetRandomSampler(validation_indices)
+    dl_train = DataLoader(dataset=dataset, batch_size=batch_size, num_workers=num_workers, sampler=train_sampler)
+    dl_valid = DataLoader(dataset=dataset, batch_size=batch_size, num_workers=num_workers, sampler=validation_sampler)
     # ========================
 
     return dl_train, dl_valid
