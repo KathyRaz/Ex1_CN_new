@@ -22,39 +22,31 @@ When increasing the K, we will get worse results for the new points in the test 
 part3_q1 = r"""
 **Your answer:**
 
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+The selection of $\Delta > 0$ is arbitrary for the Linear SVM loss $L(\mat{W})$ we have defined, since the _direction_ of
+the optimal $w$ (where $L$ is minimal) would be the same for any given $\Delta$. Only the direction affects the inference predictions.
 
 """
 
 part3_q2 = r"""
 **Your answer:**
 
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+1. The classifier has learnt a "generic" image for each of the classes. During inference it "compares" (dot product) the image 
+with each of the classes, and returns the image that is closest to the generic class image that it has learned. For that reason we can see,
+for example, that the model predicts 7 when the number is 2: in the instance that can be seen above we can see that 2 is similar to the
+generic image that the model has learned (7 with no cross on it).
+2. This interpretation is different since in the KNN implementation, we compare the given sample to its K closest samples.
+In the linear classifier, we are comparing the given sample to a pre-learnt generic sample.
 
 """
 
 part3_q3 = r"""
 **Your answer:**
 
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+1. Based on the graph of the training set loss, the learning rate seems to be good. If it were too low, the loss would not
+have been close to convergence (it would still be declining more steeply with the same number of epochs). If it were too hih,
+we may have seen the loss zig-zaging in a non-stable way, since the optimal loss would be missed at every step.
+2. The model is slightly overfitted to the training set. We can see the the training accuracy is higher than the validation
+accuracy, but the difference is not very large (87.% vs 90%).
 
 """
 
