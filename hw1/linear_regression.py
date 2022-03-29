@@ -30,7 +30,7 @@ class LinearRegressor(BaseEstimator, RegressorMixin):
 
         y_pred = None
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        y_pred = X.dot(self.weights_)
         # ========================
 
         return y_pred
@@ -48,7 +48,17 @@ class LinearRegressor(BaseEstimator, RegressorMixin):
 
         w_opt = None
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        # Closed Form Solution to Coefficients Theta in Matrix form:
+        #   W = (X^T * X + Lambda)^-1 * (X^T * y)
+        # also need to account for X[0,:] being all ones due to the bias trick
+        dimension = X.shape[1]
+        # Identity matrix of dimension compatible with our X_intercept Matrix
+        I = np.identity(dimension)
+        # set first 1 on the diagonal to zero so as not to include a bias term in regularization
+        I[0, 0] = 0
+        # Create bias term corresponding to alpha for each column of X
+        Lambda = self.reg_lambda * I
+        w_opt = np.linalg.inv(X.T.dot(X) + Lambda).dot(X.T).dot(y)
         # ========================
 
         self.weights_ = w_opt
@@ -74,7 +84,9 @@ class BiasTrickTransformer(BaseEstimator, TransformerMixin):
 
         xb = None
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        N = X.shape[0]
+        bias_trick = np.ones((N,1), dtype=X.dtype)
+        xb = np.concatenate((bias_trick, X), axis=1)
         # ========================
 
         return xb
@@ -90,7 +102,7 @@ class BostonFeaturesTransformer(BaseEstimator, TransformerMixin):
         # TODO: Your custom initialization, if needed
         # Add any hyperparameters you need and save them as above
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        self.polymial_features = PolynomialFeatures(degree=self.degree)
         # ========================
 
     def fit(self, X, y=None):
@@ -112,7 +124,7 @@ class BostonFeaturesTransformer(BaseEstimator, TransformerMixin):
 
         X_transformed = None
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        X_transformed = self.polymial_features.fit_transform(X) 
         # ========================
 
         return X_transformed
@@ -136,7 +148,15 @@ def top_correlated_features(df: DataFrame, target_feature, n=5):
     # TODO: Calculate correlations with target and sort features by it
 
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
+    cor = df.corr()
+    cor_to_target_feature = abs(cor[target_feature]) # want most negatively/positively correlated features
+    cor_to_target_feature = cor_to_target_feature.drop(target_feature) # cor to target is always 1
+    top_n_features = cor_to_target_feature.nlargest(n)
+    # top_n_corr_abs = top_n_features.tolist() # absolute value correlations
+    top_n_features = top_n_features.keys().tolist()
+    ft_df = cor[top_n_features]
+    feature_correlations = ft_df[ft_df.index==target_feature] # get actual correlation values (not abs)
+    top_n_corr = feature_correlations.values[0]
     # ========================
 
     return top_n_features, top_n_corr
@@ -170,7 +190,19 @@ def cv_best_hyperparams(model: BaseEstimator, X, y, k_folds,
     # - You can use MSE or R^2 as a score.
 
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
+    from sklearn.model_selection import GridSearchCV
+
+    tuned_parameters = [
+            {"bostonfeaturestransformer__degree": degree_range,
+            "linearregressor__reg_lambda": lambda_range}
+     ]
+
+    clf = GridSearchCV(estimator=model, 
+                       param_grid=tuned_parameters, 
+                       scoring='r2', # scoring='neg_mean_squared_error',
+                       cv=k_folds)
+    clf.fit(X, y)
+    best_params = clf.best_params_
     # ========================
 
     return best_params
