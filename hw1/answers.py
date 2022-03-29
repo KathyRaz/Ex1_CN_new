@@ -34,6 +34,7 @@ part3_q2 = r"""
 with each of the classes, and returns the image that is closest to the generic class image that it has learned. For that reason we can see,
 for example, that the model predicts 7 when the number is 2: in the instance that can be seen above we can see that 2 is similar to the
 generic image that the model has learned (7 with no cross on it).
+
 2. This interpretation is different since in the KNN implementation, we compare the given sample to its K closest samples.
 In the linear classifier, we are comparing the given sample to a pre-learnt generic sample.
 
@@ -45,6 +46,7 @@ part3_q3 = r"""
 1. Based on the graph of the training set loss, the learning rate seems to be good. If it were too low, the loss would not
 have been close to convergence (it would still be declining more steeply with the same number of epochs). If it were too hih,
 we may have seen the loss zig-zaging in a non-stable way, since the optimal loss would be missed at every step.
+
 2. The model is slightly overfitted to the training set. We can see the the training accuracy is higher than the validation
 accuracy, but the difference is not very large (87.% vs 90%).
 
@@ -70,7 +72,11 @@ An equation: $e^{i\pi} -1 = 0$
 
 part4_q2 = r"""
 **Your answer:**
-1. Logarithmic scale enables us to search a bigger space quickly. At first, we do not know the range for the lambda hyper-parameter. A faster way then linspace is trying dramatically different values at different scale, e.g. 1, 10, 100, 1000, which come from a logarithmic scale.
+1. Logarithmic scale enables us to search a bigger space quickly. At first, we do not know the range for the lambda 
+hyper-parameter. A faster way than linspace is trying dramatically different values at different scale, e.g. 1, 10, 100, 1000, 
+which come from a logarithmic scale.
+
+2. 
 """
 
 # ==============
