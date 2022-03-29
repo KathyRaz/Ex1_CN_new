@@ -70,15 +70,7 @@ An equation: $e^{i\pi} -1 = 0$
 
 part4_q2 = r"""
 **Your answer:**
-
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
-
+1. Logarithmic scale enables us to search a bigger space quickly. At first, we do not know the range for the lambda hyper-parameter. A faster way then linspace is trying dramatically different values at different scale, e.g. 1, 10, 100, 1000, which come from a logarithmic scale.
 """
 
 # ==============
