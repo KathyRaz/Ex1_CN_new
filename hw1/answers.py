@@ -10,6 +10,7 @@ math (delimited with $$).
 
 part2_q1 = r"""
 **Your answer:**
+
 We observe that increasing k beyond 5 results in a sharp and continuous decline in the KNN model performance on the unseen data.
 When k=1 the model classifies each test sample based on is closest smaple from the training set. Given the data in MNIST is of handwritten digits, it appears that the most similar training set samples (1-3) are most often the same digit as the test example.
 When increasing k to say 100, the many training samples have the incorrect label negatively affect KNN accuracy.

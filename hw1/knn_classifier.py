@@ -31,19 +31,7 @@ class KNNClassifier(object):
         self.n_classes = len(set(y_train.numpy()))
         return self
     
-    
-    
-    def most_frequent(self,l):
-        """
-        A function to find the most frequent element in a list
-        """
-        dict = {}
-        count, itm = 0, ''
-        for item in reversed(l):
-            dict[item] = dict.get(item, 0) + 1
-            if dict[item] >= count :
-                count, itm = dict[item], item
-        return(itm)
+
 
 
 
@@ -73,8 +61,13 @@ class KNNClassifier(object):
 
             # ====== YOUR CODE: ======
             ind = np.argpartition(dists[i],self.k)[:self.k]
-            y_pred[i]  =  self.most_frequent(self.y_train[ind])
-
+            dict = {}
+            count, itm = 0, ''
+            for item in reversed(self.y_train[ind]):
+                dict[item] = dict.get(item, 0) + 1
+                if dict[item] >= count:
+                    count, itm = dict[item], item
+            y_pred[i] = itm
             #raise NotImplementedError()
             # ========================
 
@@ -133,7 +126,7 @@ def accuracy(y: Tensor, y_pred: Tensor):
     # ====== YOUR CODE: ======
     correct_examples = float(torch.eq(y,y_pred).sum())
     all_examples = float(y.shape[0])
-    accuracy = correct / correct_examples
+    accuracy = correct_examples/ all_examples
     
     #raise NotImplementedError()
     # ========================
