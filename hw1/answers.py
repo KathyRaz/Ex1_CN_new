@@ -76,7 +76,11 @@ part4_q2 = r"""
 hyper-parameter. A faster way than linspace is trying dramatically different values at different scale, e.g. 1, 10, 100, 1000, 
 which come from a logarithmic scale.
 
-2. 
+2. During the cross validation (training) phase, we performed 3-fold cross validation on the training set.
+During each phase we performed a grid search over two hyperparams: the degree & lambda.
+For the degree we go over 3 potential values [1 2 3].
+For lambda we go over all 20 potential values in np.logspace(-3, 2, base=10, num=20).
+In total, we have 3 * 20 hyperparam combinations over 3-fold cross validation culminating in 3*3*20 = 180 total fits.
 """
 
 # ==============
