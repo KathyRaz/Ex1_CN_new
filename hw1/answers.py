@@ -60,13 +60,9 @@ accuracy, but the difference is not very large (87.% vs 90%).
 part4_q1 = r"""
 **Your answer:**
 
+The ideal pattern in the residual plot is for the residual values to be equally and randomly spaced around the horizontal axis (x-axis). This is given that the vertical axis (y - y_hat) indicates the residual error. So we would like our residuals to be around the lower single digits of the vertical axis (y-axis) and equally distributed on both sides of the horizontal axis (x-axis).
 
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+By observing the performance of our trained linear regression model on the hidden test-set (orange points) we observe that it performs better than our previous top-5 features heuristic. On the test set is down to 12.25 versus 26.98. We observe test predictions of the trained model are closer to the x-axis. Last, there are fewer outliers in our trained model than in the plot of the top-5 features heuristic.
 
 """
 
