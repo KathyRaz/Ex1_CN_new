@@ -74,12 +74,11 @@ class KNNClassifier(object):
             # ====== YOUR CODE: ======
             ind = np.argpartition(dists[i],self.k)[:self.k]
             y_pred[i]  =  self.most_frequent(self.y_train[ind])
-        return y_pred
 
             #raise NotImplementedError()
             # ========================
 
-        #return y_pred
+        return y_pred
 
     def calc_distances(self, x_test: Tensor):
         """
@@ -108,12 +107,12 @@ class KNNClassifier(object):
 
         sqrA = torch.sum(torch.pow(x_test, 2), 1, keepdim=True).expand(x_test.shape[0], self.x_train.shape[0])
         sqrB = torch.sum(torch.pow(self.x_train, 2), 1, keepdim=True).expand(self.x_train.shape[0], x_test.shape[0]).t()
-        return torch.sqrt(sqrA - 2*torch.mm(x_test, self.x_train.t()) + sqrB)
+        dists = torch.sqrt(sqrA - 2*torch.mm(x_test, self.x_train.t()) + sqrB)
         
         #raise NotImplementedError()
         # ========================
 
-        return torch.sqrt(sqrA - 2*torch.mm(x_test, self.x_train.t()) + sqrB)
+        return dists
 
 
 def accuracy(y: Tensor, y_pred: Tensor):
@@ -132,10 +131,9 @@ def accuracy(y: Tensor, y_pred: Tensor):
 
     accuracy = 0
     # ====== YOUR CODE: ======
-    for i in range(y.shape[0]):
-        if y[i] == y_pred[i]:
-            accuracy += 1
-    accuracy = accuracy/y.shape[0]
+    correct_examples = float(torch.eq(y,y_pred).sum())
+    all_examples = float(y.shape[0])
+    accuracy = correct / correct_examples
     
     #raise NotImplementedError()
     # ========================
