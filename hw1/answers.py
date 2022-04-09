@@ -10,8 +10,11 @@ math (delimited with $$).
 
 part2_q1 = r"""
 **Your answer:**
-When increasing the K, we will get worse results for the new points in the test part, as increasing k leads to improved generalization for unseen data. When K is small, the model is overfitted, and less generalized. This is because, for small K, we are more influenced by each point separately, including the more anomalous points (outliers). But, eventually, as K is increased further, we decide the label of the unseen data by the majority of points surrounding it, and thus, each point has a smaller weight in the decision. Eventually, when we increase K, the model is too general and could lead to a decrease in accuracy. It is especially decreased when the groups vary in size, and small groups could disappear completely for the unseen data.
-
+We observe that increasing k beyond 5 results in a sharp and continuous decline in the KNN model performance on the unseen data.
+When k=1 the model classifies each test sample based on is closest smaple from the training set. Given the data in MNIST is of handwritten digits, it appears that the most similar training set samples (1-3) are most often the same digit as the test example.
+When increasing k to say 100, the many training samples have the incorrect label negatively affect KNN accuracy.
+At the extremal values of k:
+If k is very small the danger is that we overfit, while if k is very large (number of data points) then we aren't really looking at any neighbors.
 
 """
 # ==============
